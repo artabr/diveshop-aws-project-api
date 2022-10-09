@@ -6,9 +6,19 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: nodejs14.x
+  region: eu-central-1
 
 functions:
-  api:
-    handler: handler.handler
+  getProductsList:
+    handler: handler/getProductsList.getProductsList
     events:
-      - httpApi: '*'
+      - http:
+          path: products
+          method: get
+
+  getProductsById:
+    handler: handler/getProductsById.getProductsById
+    events:
+      - http:
+          path: products/{productId}
+          method: get
