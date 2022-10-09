@@ -1,0 +1,14 @@
+org: artabr
+app: diveshop-aws-project-api
+service: diveshop-aws-project-api
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: '*'
