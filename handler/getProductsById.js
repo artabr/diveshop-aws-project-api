@@ -5,9 +5,9 @@ const mockData = require("../data/mockData");
 
 app.get("/products/:productId", (req, res, next) => {
     const product = mockData.products.find((product) => product.itemId === Number(req.params['productId']));
-    return res.status(200).json({
-        data: product,
-    });
+    return res.status(200).set({
+        'Access-Control-Allow-Origin': '*',
+    }).json(product);
 });
 
 app.use((req, res, next) => {

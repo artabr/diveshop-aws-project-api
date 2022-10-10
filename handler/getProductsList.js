@@ -4,9 +4,9 @@ const app = express();
 const mockData = require("../data/mockData");
 
 app.get("/products", (req, res, next) => {
-    return res.status(200).json({
-        data: mockData,
-    });
+    return res.status(200).set({
+        'Access-Control-Allow-Origin': '*',
+    }).json(mockData.products);
 });
 
 app.use((req, res, next) => {
