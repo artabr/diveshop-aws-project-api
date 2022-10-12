@@ -5,7 +5,7 @@ module.exports.getProductsById = async (event) => {
         const productId = event.pathParameters['productId']
         const product = await fetchProductsById(productId);
         if (!product) return {
-            statusCode: 400,
+            statusCode: 404,
             headers: {
                 'Access-Control-Allow-Origin': '*',
             },

@@ -8,19 +8,38 @@ provider:
   runtime: nodejs14.x
   region: eu-central-1
 
+plugins:
+  - serverless-auto-swagger
+
+custom:
+  autoswagger:
+    typefiles: ['./types/api-types.d.ts']
+
 functions:
   getProductsList:
     handler: handler/getProductsList.getProductsList
     events:
-      - http:
-          path: products
+      - httpApi:
+          path: /products
           method: get
-          cors: true
+          responseData:
+            200:
+              description: 'List of products was served'
+              bodyType: 'Products'
+            500:
+              description: 'Unexpected error happened'
 
   getProductsById:
     handler: handler/getProductsById.getProductsById
     events:
-      - http:
-          path: products/{productId}
+      - httpApi:
+          path: /products/{productId}
           method: get
-          cors: true
+          responseData:
+            200:
+              description: 'Product with given ID was found'
+              bodyType: 'Product'
+            404:
+              description: 'Product not found'
+            500:
+              description: 'Unexpected error happened'

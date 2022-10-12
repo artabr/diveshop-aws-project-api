@@ -1,5 +1,8 @@
 {
   "name": "diveshop-aws-project-api",
   "version": "1.0.0",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "serverless-auto-swagger": "^2.9.2"
+  }
 }
