@@ -1,18 +1,22 @@
-const serverless = require("serverless-http");
-const express = require("express");
-const app = express();
-const mockData = require("../data/mockData");
+const {fetchProducts} = require("../api/fetchData");
 
-app.get("/products", (req, res, next) => {
-    return res.status(200).set({
-        'Access-Control-Allow-Origin': '*',
-    }).json(mockData.products);
-});
-
-app.use((req, res, next) => {
-    return res.status(404).json({
-        error: "Not Found",
-    });
-});
-
-module.exports.getProductsList = serverless(app);
+module.exports.getProductsList = async () => {
+    try {
+        const products = await fetchProducts();
+        return {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify(products),
+        };
+    } catch (e) {
+        return {
+            statusCode: 500,
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify({message: `ERROR: ${e}`}),
+        };
+    }
+};
