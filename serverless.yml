@@ -43,3 +43,32 @@ functions:
               description: 'Product not found'
             500:
               description: 'Unexpected error happened'
+
+resources:
+  Resources:
+    diveshopProducts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: diveshop_products
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+    diveshopStocks:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: diveshop_stocks
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2

@@ -4,5 +4,9 @@
   "description": "",
   "devDependencies": {
     "serverless-auto-swagger": "^2.9.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1233.0",
+    "uuid": "^9.0.0"
   }
 }

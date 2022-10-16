@@ -9,20 +9,12 @@ const params = [{
             AttributeName: "id",
             AttributeType: "S"
         },
-        {
-            AttributeName: "title",
-            AttributeType: "S"
-        }
     ],
     KeySchema: [
         {
             AttributeName: "id",
             KeyType: "HASH"
         },
-        {
-            AttributeName: "title",
-            KeyType: "RANGE"
-        }
     ],
     BillingMode: "PROVISIONED",
     ProvisionedThroughput: {
