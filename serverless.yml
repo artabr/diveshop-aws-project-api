@@ -54,8 +54,27 @@ functions:
             200:
               description: 'Product was created.'
               bodyType: 'Product'
+            400:
+              description: 'Bad request'
             500:
               description: 'Unexpected error happened'
+          queryStringParameters:
+            title:
+              required: true
+              type: 'string'
+              description: 'The product title. Required.'
+            description:
+              required: false
+              type: 'string'
+              description: 'The product description. Less than 256 symbols.'
+            price:
+              required: true
+              type: 'string'
+              description: 'The product price. Required.'
+            image:
+              required: false
+              type: 'string'
+              description: 'The product image URL.'
 
 resources:
   Resources:

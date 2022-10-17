@@ -34,13 +34,20 @@ module.exports.createProduct = async (event) => {
                 image: queryParams.image
             },
         }).promise();
+        await documentClient.put({
+            TableName: "diveshop_stocks",
+            Item: {
+                product_id: id,
+                count: queryParams.count ?? 1,
+            },
+        }).promise();
         console.log("[Create product]:",queryParams)
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*',
             },
-            body: JSON.stringify(product.Item),
+            body: JSON.stringify(product),
         };
     } catch (e) {
         console.log("[Create product] [ERROR]:", e, "[queryParams]:", queryParams);
