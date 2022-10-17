@@ -9,9 +9,10 @@ module.exports.getProductsById = async (event) => {
         const product = await documentClient.get({
             TableName: "diveshop_products",
             Key: {
-                id: productId, // id is the Partition Key, '123' is the value of it
+                id: productId,
             },
         }).promise();
+        console.log("[Get product by ID]:", productId)
         if (!product) return {
             statusCode: 404,
             headers: {
@@ -27,6 +28,7 @@ module.exports.getProductsById = async (event) => {
             body: JSON.stringify(product.Item),
         };
     } catch (e) {
+        console.log("[Get product by ID] [ERROR]:", e, "[productId]:", productId);
         return {
             statusCode: 500,
             headers: {

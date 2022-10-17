@@ -8,6 +8,7 @@ module.exports.getProductsList = async () => {
         const products = await documentClient.scan({
             TableName: "diveshop_products",
         }).promise();
+        console.log("[Get product list]")
         return {
             statusCode: 200,
             headers: {
@@ -16,6 +17,7 @@ module.exports.getProductsList = async () => {
             body: JSON.stringify(products.Items),
         };
     } catch (e) {
+        console.log("[Get product list]", e);
         return {
             statusCode: 500,
             headers: {

@@ -44,6 +44,19 @@ functions:
             500:
               description: 'Unexpected error happened'
 
+  createProduct:
+    handler: handler/createProduct.createProduct
+    events:
+      - httpApi:
+          path: /products
+          method: post
+          responseData:
+            200:
+              description: 'Product was created.'
+              bodyType: 'Product'
+            500:
+              description: 'Unexpected error happened'
+
 resources:
   Resources:
     diveshopProducts:
