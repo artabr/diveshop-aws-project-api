@@ -5,20 +5,20 @@ This is a part of a project for AWS JavaScript Developer course.
 ### Lambda functions
 
 - List all products:
-  - https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/products
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products
 
 
 - Get a product by ID:
-  - https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/products/{productId}
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products/{productId}
 
 
 - Create a product:
-  - https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/products?title={{title}}&description={{description}}&price={{price}}&image={{image}}&count={{count}}
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products?title={{title}}&description={{description}}&price={{price}}&image={{image}}&count={{count}}
 
 ### Swagger
 
 Swagger deployed at:
-- https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/swagger
+- https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/swagger
 
 ### Frontend
 
