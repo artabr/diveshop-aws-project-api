@@ -1,18 +1,17 @@
 const AWS = require("aws-sdk");
 AWS.config.update({region: "eu-central-1"});
+const {v4: uuid} = require('uuid');
 const s3 = new AWS.S3();
 
-module.exports.importProductsFile = async (event) => {
+module.exports.importProductsFile = async () => {
     try {
         const randomID = uuid();
-        const Key = `products-file-${randomID}.jpg`
-        const queryParams = event.queryStringParameters;
-        const { name } = queryParams;
+        const fileName = `products-file-${randomID}.csv`
 
         const s3Params = {
             Bucket: process.env.UploadBucket,
-            Key,
-            ContentType: 'image/jpeg',
+            Key: fileName,
+            ContentType: 'text/csv',
         }
 
         return {
@@ -22,7 +21,7 @@ module.exports.importProductsFile = async (event) => {
             },
             body: JSON.stringify({
                 uploadURL: s3.getSignedUrl("putObject", s3Params),
-                photoFilename: Key,
+                csvFilename: fileName,
             }),
         };
     } catch (e) {

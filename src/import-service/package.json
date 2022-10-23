@@ -1,0 +1,10 @@
+{
+  "name": "diveshop-aws-project-api",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "aws-sdk": "^2.1233.0",
+    "csv-parser": "^3.0.0",
+    "uuid": "^9.0.0"
+  }
+}
