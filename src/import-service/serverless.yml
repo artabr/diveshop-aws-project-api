@@ -1,0 +1,38 @@
+org: artabr
+app: diveshop-aws-project-api
+service: diveshop-aws-project-api
+frameworkVersion: '3'
+
+plugins:
+  - serverless-lift
+
+constructs:
+  inputBucket:
+    type: storage
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+
+functions:
+  getProductsList:
+    handler: handler/importProductsFile.importProductsFile
+    events:
+      - httpApi:
+          path: /import
+          method: get
+          responseData:
+            200:
+              description: 'File imported.'
+#              bodyType: 'Products'
+            500:
+              description: 'Unexpected error happened'
+          queryStringParameters:
+            name:
+              required: true
+              type: 'string'
+              description: 'The name of the CSV file with products. Required.'
+      - s3:
+          bucket: ${construct:inputBucket.bucketName}
+          existing: true
