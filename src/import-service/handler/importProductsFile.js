@@ -10,7 +10,7 @@ module.exports.importProductsFile = async () => {
 
         const s3Params = {
             Bucket: process.env.UploadBucket,
-            Key: fileName,
+            Key: `uploaded/${fileName}`,
             ContentType: 'text/csv',
         }
 

@@ -25,3 +25,9 @@ Swagger deployed at:
 The repo for the frontend for this app is here https://github.com/artabr/diveshop-aws-project
 
 The frontend is deployed at http://artabr-diveshop-aws-project.s3-website.eu-central-1.amazonaws.com/
+
+### S3 import Lambda function
+
+The endpoint for the API which return a signed URL to upload a csv file is here: https://8xxzwg30o7.execute-api.eu-central-1.amazonaws.com/import
+
+After the upload CloudWatch successfully logs the JSON parsed from CSV file.
