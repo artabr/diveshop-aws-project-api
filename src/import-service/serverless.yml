@@ -1,0 +1,85 @@
+org: artabr
+app: diveshop-aws-project-api
+service: diveshop-aws-project-api
+frameworkVersion: '3'
+
+custom:
+  bucketName: diveshop-aws-project-api-upload-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  stage: test
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:PutObjectAcl
+          Resource:
+            - arn:aws:s3:::${self:custom.bucketName}/*
+          Sid: AllowPublic
+
+functions:
+  importProductsFile:
+    handler: handler/importProductsFile.importProductsFile
+    environment:
+      UploadBucket: ${self:custom.bucketName}
+    events:
+      - httpApi:
+          path: /import
+          method: get
+  importFileParser:
+    handler: handler/importFileParser.importFileParser
+    environment:
+      UploadBucket: ${self:custom.bucketName}
+    events:
+      - s3:
+          bucket: ${self:custom.bucketName}
+          event: s3:ObjectCreated:*
+          existing: true
+          rules:
+            - prefix: uploaded/
+            - suffix: .csv
+
+resources:
+  Resources:
+    UploadBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.bucketName}
+        AccessControl: PublicRead
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - HEAD
+                - PUT
+                - POST
+                - DELETE
+              AllowedOrigins:
+                - "*"
+    UploadBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: UploadBucket
+        PolicyDocument:
+          Statement:
+            - Effect: "Allow"
+              Action:
+                - s3:GetObject
+              Principal: "*"
+              Sid: PublicGetObject
+              Resource:
+                Fn::Join:
+                  - ""
+                  - - "arn:aws:s3:::"
+                    - "Ref": UploadBucket
+                    - "/*"
