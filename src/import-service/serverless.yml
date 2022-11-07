@@ -5,6 +5,7 @@ frameworkVersion: '3'
 
 custom:
   bucketName: diveshop-aws-project-api-upload-${self:provider.stage}
+  TopicArn: "arn:aws:sns:${opt:region, self:provider.region}:*:createProductTopic"
 
 provider:
   name: aws
@@ -23,8 +24,39 @@ provider:
           Resource:
             - arn:aws:s3:::${self:custom.bucketName}/*
           Sid: AllowPublic
+        - Effect: Allow
+          Action:
+            - sqs:SendMessage
+          Resource:
+            - Fn::GetAtt: [ catalogItemsQueue, Arn ]
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/diveshop_products"
+            - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/diveshop_stocks"
+        - Effect: Allow
+          Action:
+            - "sns:*"
+          Resource:
+            Ref: createProductTopic
 
 functions:
+  catalogBatchProcess:
+    handler: handler/catalogBatchProcess.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
+
   importProductsFile:
     handler: handler/importProductsFile.importProductsFile
     environment:
@@ -33,10 +65,13 @@ functions:
       - httpApi:
           path: /import
           method: get
+
   importFileParser:
     handler: handler/importFileParser.importFileParser
     environment:
       UploadBucket: ${self:custom.bucketName}
+      SQS_URL:
+        Ref: catalogItemsQueue
     events:
       - s3:
           bucket: ${self:custom.bucketName}
@@ -48,6 +83,25 @@ functions:
 
 resources:
   Resources:
+    createProductTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        DisplayName: "The notification topic for create product events"
+        TopicName: createProductTopic
+
+    emailToSNSUploadProgressNotificationTopicSubscription:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: "artemabr@gmail.com"
+        Protocol: "email"
+        TopicArn:
+          Ref: createProductTopic
+
+    catalogItemsQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: catalogItemsQueue
+
     UploadBucket:
       Type: AWS::S3::Bucket
       Properties:
