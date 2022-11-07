@@ -1,6 +1,7 @@
 const AWS = require("aws-sdk");
 AWS.config.update({region: "eu-central-1"});
 const s3 = new AWS.S3();
+const sqs = new AWS.SQS();
 const csv = require('csv-parser');
 
 function parseFile(fileName) {
@@ -14,20 +15,21 @@ function parseFile(fileName) {
         s3.getObject(s3Params).createReadStream().pipe(csv())
             .on('data', (data) => results.push(data))
             .on('end', () => {
-                console.log(results);
-                return resolve('Success: ' + results)
+                return resolve(results)
             });
     });
 }
 
 module.exports.importFileParser = async (event) => {
     try {
-        let tasks = []
-        event.Records.forEach((record) => {
-            tasks.push(parseFile(record.s3.object.key))
-        });
+        const results = await parseFile(event.Records[0].s3.object.key)
 
-        await Promise.all(tasks);
+        for (const result of results) {
+            await sqs.sendMessage({
+                QueueUrl: process.env.SQS_URL,
+                MessageBody: JSON.stringify(result),
+            }).promise();
+        }
 
         return {
             statusCode: 200,
