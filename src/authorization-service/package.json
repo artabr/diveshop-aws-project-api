@@ -1,0 +1,11 @@
+{
+  "name": "diveshop-aws-project-api",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {
+    "aws-sdk": "^2.1233.0"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "^4.0.2"
+  }
+}

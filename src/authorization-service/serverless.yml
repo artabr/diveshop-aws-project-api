@@ -1,0 +1,27 @@
+org: artabr
+app: diveshop-aws-project-api
+service: authorization-service
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-central-1
+  stage: test
+  httpApi:
+    cors: true
+
+functions:
+  basicAuthorizer:
+    handler: handler/basicAuthorizer.basicAuthorizer
+
+resources:
+  Outputs:
+    basicAuthorizerArn:
+      Value:
+        'Fn::GetAtt': [BasicAuthorizerLambdaFunction, Arn]
+      Export:
+        Name: authorization-service-basicAuthorizer-${self:provider.stage}
