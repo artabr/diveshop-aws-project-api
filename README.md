@@ -2,16 +2,23 @@
 
 This is a part of a project for AWS JavaScript Developer course.
 
-### Deployment
+### Lambda functions
 
-Two Lambda deployed at:
-- https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/products
-- https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/products/{productId}
+- List all products:
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products
+
+
+- Get a product by ID:
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products/{productId}
+
+
+- Create a product:
+  - https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/products?title={{title}}&description={{description}}&price={{price}}&image={{image}}&count={{count}}
 
 ### Swagger
 
 Swagger deployed at:
-- https://4vvnuq9pg2.execute-api.eu-central-1.amazonaws.com/swagger
+- https://tvk13qhroe.execute-api.eu-central-1.amazonaws.com/swagger
 
 ### Frontend
 

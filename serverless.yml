@@ -43,3 +43,64 @@ functions:
               description: 'Product not found'
             500:
               description: 'Unexpected error happened'
+
+  createProduct:
+    handler: handler/createProduct.createProduct
+    events:
+      - httpApi:
+          path: /products
+          method: post
+          responseData:
+            200:
+              description: 'Product was created.'
+              bodyType: 'Product'
+            400:
+              description: 'Bad request'
+            500:
+              description: 'Unexpected error happened'
+          queryStringParameters:
+            title:
+              required: true
+              type: 'string'
+              description: 'The product title. Required.'
+            description:
+              required: false
+              type: 'string'
+              description: 'The product description. Less than 256 symbols.'
+            price:
+              required: true
+              type: 'string'
+              description: 'The product price. Required.'
+            image:
+              required: false
+              type: 'string'
+              description: 'The product image URL.'
+
+resources:
+  Resources:
+    diveshopProducts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: diveshop_products
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2
+    diveshopStocks:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: diveshop_stocks
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 2

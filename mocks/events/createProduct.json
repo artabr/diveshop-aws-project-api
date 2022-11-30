@@ -1,0 +1,8 @@
+{
+  "queryStringParameters": {
+    "id": "b36380b4-c881-4f56-9ec6-11d0e2023beb",
+    "description":  "New product added with Create API",
+    "price":  1000,
+    "image": "https://picsum.photos/300"
+  }
+}

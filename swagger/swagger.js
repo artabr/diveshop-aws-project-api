@@ -29,6 +29,61 @@
             "description": "Unexpected error happened"
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post./products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "title",
+            "type": "string",
+            "description": "The product title. Required.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "description",
+            "type": "string",
+            "description": "The product description. Less than 256 symbols.",
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "price",
+            "type": "string",
+            "description": "The product price. Required.",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "image",
+            "type": "string",
+            "description": "The product image URL.",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product was created.",
+            "schema": {
+              "$ref": "#/definitions/Product"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Unexpected error happened"
+          }
+        }
       }
     },
     "/products/{productId}": {
